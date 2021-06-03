@@ -22,14 +22,15 @@ app.use(express.urlencoded({ extended: true }));
 // parse application/json
 app.use(express.json());
 
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://maison.std-704.ist.mospolytech.ru/"
+  })
+);
 
 // Настройка CORS
 app.use(function (req, res, next) {
-  res.header(
-    "Access-Control-Allow-Origin",
-    "http://maison.std-704.ist.mospolytech.ru/"
-  );
+  res.setHeader("Access-Control-Allow-Origin", "*");
   res.header(
     "Access-Control-Allow-Headers",
     "Origin, X-Requested-With, Content-Type, Accept, Authorization"
@@ -39,40 +40,6 @@ app.use(function (req, res, next) {
     "GET, PATCH, PUT, POST, DELETE, OPTIONS"
   );
   next();
-});
-
-// Обработка статических файлов
-app.use("/", serveStatic(path.join(__dirname, "../dist/memoryExpedition")));
-
-// Работа со статическими файлами
-app.use(express.static(path.join(__dirname, "../dist")));
-
-// Работа со статическими файлами
-app.use("/public", express.static(path.join(__dirname, "/public")));
-
-app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "../dist/memoryExpedition/index.html"));
-});
-app.get("/game", (req, res) => {
-  res.redirect("/");
-});
-app.get("/finish", (req, res) => {
-  res.redirect("/");
-});
-app.get("/admin/login", (req, res) => {
-  res.sendFile(path.join(__dirname, "../dist/memoryExpedition/index.html"));
-});
-app.get("/admin", (req, res) => {
-  res.redirect("/admin/login");
-});
-app.get("/admin/statistics", (req, res) => {
-  res.redirect("/admin/login");
-});
-app.get("/admin/newquestion", (req, res) => {
-  res.redirect("/admin/login");
-});
-app.get("/admin/questions", (req, res) => {
-  res.redirect("/admin/login");
 });
 
 const CONFIG = {
