@@ -22,7 +22,7 @@ app.use(express.urlencoded({ extended: true }));
 // parse application/json
 app.use(express.json());
 
-app.use(cors());
+app.use(cors({ origin: true, credentials: true }));
 
 // Настройка CORS
 app.use(function (req, res, next) {
@@ -35,6 +35,9 @@ app.use(function (req, res, next) {
     "Access-Control-Allow-Methods",
     "GET, PATCH, PUT, POST, DELETE, OPTIONS"
   );
+  if (req.method === "OPTIONS") {
+    return res.status(200).end();
+  }
   next();
 });
 
