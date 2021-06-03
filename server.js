@@ -22,19 +22,21 @@ app.use(express.urlencoded({ extended: true }));
 // parse application/json
 app.use(express.json());
 
-app.use(cors());
+// app.use(cors());
 
 // Настройка CORS
-app
-  .use(function (req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "*");
-    res.header("Access-Control-Allow-Methods", "*");
-    next();
-  })
-  .options("*", function (req, res, next) {
-    res.end();
-  });
+app.use(function (req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept, Authorization"
+  );
+  res.header(
+    "Access-Control-Allow-Methods",
+    "GET, PATCH, PUT, POST, DELETE, OPTIONS"
+  );
+  next();
+});
 
 const CONFIG = {
   DB: "std_704_realestateagency",
